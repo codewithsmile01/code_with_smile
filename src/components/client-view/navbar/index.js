@@ -20,15 +20,16 @@ const menuItems = [
     id: "project",
     label: "projects",
   },
-  {
-    id: "contact",
-    label: "Contact",
-  },
+  // {
+  //   id: "contact",
+  //   label: "Contact",
+  // },
 ];
 
 function CreateMenus({ activeLink, getMenuItems, setActiveLink }) {
   return getMenuItems.map((item) => (
     <LinkScroll
+      key={item.id}
       activeClass="active"
       to={item.id}
       spy={true}
@@ -61,17 +62,17 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 w-full z-30 bg-white-500 transition-all ${
+        className={`fixed top-0 w-full z-30 bg-orange-500 transition-all ${
           scrollActive ? "shadow-md pt-0" : "pt-4"
         }`}
       >
-        <nav className="max-w-screen-xl px-6 sm:px-8 lg:px-16 mx-auto grid grid-flow-col py-3 sm:py-4">
-          <div className="col-start-1 col-end-2 flex items-center">
-            <div className="cursor-pointer flex gap-2 font-bold items-center text-[20px] text-green-main">
-              <div className="w-[40px] h-[40px] flex justify-center items-center p-3 rounded-[8px] border-green-main bg-green-main">
-                <span className="text-[#fff] text-[25px] font-bold">P</span>
+        <nav className="max-w-screen-xl max-h-7 bg-orange-500 flex items-center justify-center py-4 px-4 mx-auto">
+          <div className="col-start-1 col-end-2 flex items-center justify-center">
+            <div className="cursor-pointer flex gap-2 font-semibold items-center text-[18px] text-green-main">
+              <div className="w-[70px] h-[30px] flex justify-center items-center p-3 rounded-[8px] border-green-main bg-green-main">
+                <span className="text-[#fff] text-[25px] font-bold">code</span>
               </div>
-              ortfolio
+              with smile
             </div>
           </div>
           <ul className="hidden lg:flex col-start-4 col-end-8 text-[#000] items-center">
@@ -90,7 +91,7 @@ export default function Navbar() {
                   smooth: true,
                 })
               }
-              className="py-3 px-6 border-[2px] bg-[#fff] border-green-main text-[#000] font-semibold rounded-lg text-xl tracking-widest hover:shadow-green-md transition-all outline-none"
+              className="px-2 border-[2px] bg-[#fff] border-green-main text-[#000] font-semibold rounded-lg text-xl tracking-widest hover:shadow-green-md transition-all outline-none"
             >
               Contact Me
             </button>
