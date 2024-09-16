@@ -117,7 +117,7 @@ export default function ClientAboutView({ data }) {
             />
           </motion.div>
         </AnimationWrapper>
-        <AnimationWrapper className={"flex items-center w-full p-4"}>
+        {/* <AnimationWrapper className={"flex items-center w-full p-4"}>
           <motion.div
             variants={setVariants}
             className="grid gap-4 grid-cols-3 h-full max-h-[200px] w-full"
@@ -134,7 +134,7 @@ export default function ClientAboutView({ data }) {
               </motion.div>
             ))}
           </motion.div>
-        </AnimationWrapper>
+        </AnimationWrapper> */}
       </div>
     </div>
   );
