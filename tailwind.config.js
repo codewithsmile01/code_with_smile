@@ -1,52 +1,53 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
+const svgToDataUri = require("mini-svg-data-uri");
+
+const colors = require("tailwindcss/colors");
+const {
+  default: flattenColorPalette,
+} = require("tailwindcss/lib/util/flattenColorPalette");
+
 /** @type {import('tailwindcss').Config} */
-export const content = [
-  "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-  "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-  "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-];
-export const theme = {
-  boxShadow: {
-    sm: "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
-    DEFAULT: "0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-    md: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
-    lg: "0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)",
-    xl: "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-    t: "0 -1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)",
-    orange: "0px 20px 20px -15px rgba(245,56,56,0.81) ",
-    "green-md": "0px 20px 40px -15px rgba(245,56,56,0.81) ",
-    "green-md": "0px 20px 40px -15px rgba(13, 183, 96, 0.81)",
-    none: "none",
+module.exports = {
+  content: ["./src/**/*.{ts,tsx}"],
+  darkMode: "class",
+  theme: {
+    // rest of the code
   },
-  colors: {
-    transparent: "transparent",
-    black: {
-      900: "#000000",
-      500: "#4F5665",
-      600: "#0B132A",
+  plugins: [
+    addVariablesForColors,
+    function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          "bg-grid": (value) => ({
+            backgroundImage: `url("${svgToDataUri(
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`
+            )}")`,
+          }),
+          "bg-grid-small": (value) => ({
+            backgroundImage: `url("${svgToDataUri(
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="8" height="8" fill="none" stroke="${value}"><path d="M0 .5H31.5V32"/></svg>`
+            )}")`,
+          }),
+          "bg-dot": (value) => ({
+            backgroundImage: `url("${svgToDataUri(
+              `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="16" height="16" fill="none"><circle fill="${value}" id="pattern-circle" cx="10" cy="10" r="1.6257413380501518"></circle></svg>`
+            )}")`,
+          }),
+        },
+        { values: flattenColorPalette(theme("backgroundColor")), type: "color" }
+      );
     },
-    orange: {
-      100: "#FFECEC",
-      500: "#F53855",
-    },
-    green: {
-      500: "#2FAB73",
-      main: "#0DB760",
-    },
-    white: {
-      300: "#F8F8F8",
-      500: "#fff",
-    },
-    gray: {
-      100: "#EEEFF2",
-      400: "#AFB5C0",
-      500: "#DDDDDD",
-    },
-  },
-  extend: {},
+  ],
 };
-export const variants = {
-  extend: {
-    boxShadow: ["active", "hover"],
-  },
-};
-export const plugins = [];
+
+function addVariablesForColors({ addBase, theme }) {
+  let allColors = flattenColorPalette(theme("colors"));
+  let newVars = Object.fromEntries(
+    Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
+  );
+
+  addBase({
+    ":root": newVars,
+  });
+}

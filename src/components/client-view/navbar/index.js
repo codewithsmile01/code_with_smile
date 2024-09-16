@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Link as LinkScroll, scroller } from "react-scroll";
+// import { Menu, MenuItem } from "@/ui/navbar-menu";
+import { Menu, MenuItem } from "@/components/ui/navbar-menu";
+import { cn } from "@/lib/utils";
 
 const menuItems = [
   {
@@ -49,7 +52,8 @@ function CreateMenus({ activeLink, getMenuItems, setActiveLink }) {
   ));
 }
 
-export default function Navbar() {
+export default function Navbar(className) {
+  const [active, setActive] = useState(null);
   const [activeLink, setActiveLink] = useState("home");
   const [scrollActive, setScrollActive] = useState(false);
 
@@ -58,15 +62,12 @@ export default function Navbar() {
       setScrollActive(window.screenY > 20);
     });
   }, []);
-
   return (
-    <>
-      <header
-        className={`fixed top-0 w-full z-30 bg-orange-500 transition-all ${
-          scrollActive ? "shadow-md pt-0" : "pt-4"
-        }`}
-      >
-        <nav className="max-w-screen-xl max-h-7 bg-orange-500 flex items-center justify-center py-4 px-4 mx-auto">
+    <div
+      className={cn("fixed top-10 inset-x-0 max-w-2xl mx-auto z-50", className)}
+    >
+      <Menu setActive={setActive}>
+        <MenuItem setActive={setActive} active={active} item="Services">
           <div className="col-start-1 col-end-2 flex items-center justify-center">
             <div className="cursor-pointer flex gap-2 font-semibold items-center text-[18px] text-green-main">
               <div className="w-[70px] h-[30px] flex justify-center items-center p-3 rounded-[8px] border-green-main bg-green-main">
@@ -75,13 +76,11 @@ export default function Navbar() {
               with smile
             </div>
           </div>
-          <ul className="hidden lg:flex col-start-4 col-end-8 text-[#000] items-center">
-            <CreateMenus
-              setActiveLink={setActiveLink}
-              activeLink={activeLink}
-              getMenuItems={menuItems}
-            />
-          </ul>
+          <CreateMenus
+            setActiveLink={setActiveLink}
+            activeLink={activeLink}
+            getMenuItems={menuItems}
+          />
           <div className="col-start-10 col-end-12 font-medium flex justify-center items-center">
             <button
               onClick={() =>
@@ -96,19 +95,8 @@ export default function Navbar() {
               Contact Me
             </button>
           </div>
-        </nav>
-      </header>
-      <nav className="fixed lg:hidden bottom-0 left-0 right-0 z-20 px-4 sm:px-8 shadow-t">
-        <div className="bg-white-500 sm:px-3">
-          <ul className="overflow-x-auto flex w-full justify-between items-center text-[#000]">
-            <CreateMenus
-              setActiveLink={setActiveLink}
-              activeLink={activeLink}
-              getMenuItems={menuItems}
-            />
-          </ul>
-        </div>
-      </nav>
-    </>
+        </MenuItem>
+      </Menu>
+    </div>
   );
 }
